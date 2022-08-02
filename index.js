@@ -9,6 +9,8 @@ import dbConnect from './config/Database.js'
 
 /* Routes */
 import authRouter from './routes/authRouter.js'
+import productRouter from './routes/productRouter.js'
+import categoryRouter from './routes/categoryRouter.js'
 
 dotenv.config()
 const app = express()
@@ -18,12 +20,23 @@ if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'))
 }
 
-app.use(cors({ credentials: true, origin: 'http://localhost:3000' }))
+app.use(
+  cors({
+    credentials: true,
+    origin: process.env.CORS_OPEN || 'http://localhost:3000',
+  })
+)
 app.use(cookieParser())
 app.use(express.json())
 
 /* auth Routes */
 app.use(authRouter)
+
+/* Product Routes */
+app.use('/api/product', productRouter)
+
+/* Category Routes */
+app.use('/api/category', categoryRouter)
 
 const PORT = process.env.PORT || 5000
 
