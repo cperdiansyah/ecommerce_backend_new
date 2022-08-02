@@ -21,6 +21,7 @@
       {
         "skipBlankLines": true
       }
-    ]
+    ],
+    "import/extensions": false
   }
 }

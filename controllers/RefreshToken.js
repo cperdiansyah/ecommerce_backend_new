@@ -1,7 +1,9 @@
 import jwt from 'jsonwebtoken'
 import asyncHandler from 'express-async-handler'
 
-import Users from '../models/UserModel'
+import Users from '../models/UserModel.js'
+
+// const Users = require('../models/UserModel')
 
 const refreshToken = asyncHandler(async (req, res) => {
   try {

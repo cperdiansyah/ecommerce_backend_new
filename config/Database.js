@@ -1,6 +1,8 @@
-const mongoose = require('mongoose')
+// const mongoose = require('mongoose')
+import mongoose from 'mongoose'
+import asyncHandler from 'express-async-handler'
 
-async function dbConnect() {
+const dbConnect = asyncHandler(async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI, {
       useUnifiedTopology: true,
@@ -12,6 +14,7 @@ async function dbConnect() {
     console.error(err.message)
     process.exit(1)
   }
-}
+})
 
-module.exports = dbConnect
+export default dbConnect
+// module.exports = dbConnect

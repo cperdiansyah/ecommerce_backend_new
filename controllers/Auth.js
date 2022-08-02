@@ -1,11 +1,12 @@
+/* const asyncHandler = require('express-async-handler')
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken') */
+
+// const Users = require('../models/UserModel')
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import asyncHandler from 'express-async-handler'
-
 import Users from '../models/UserModel.js'
-
-// import Users from '../models/UserModel.js'
-
 // const Users = require('../models/UserModel')
 
 export const Login = asyncHandler(async (req, res) => {
