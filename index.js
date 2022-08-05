@@ -29,8 +29,10 @@ app.use(
 app.use(cookieParser())
 app.use(express.json())
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
+app.get('/api', function (req, res) {
+  req.cookies.title = 'GeeksforGeeks'
+  console.log(req.cookies)
+  res.send()
 })
 /* auth Routes */
 app.use('/api/auth', authRouter)
