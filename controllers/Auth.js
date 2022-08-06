@@ -39,7 +39,6 @@ export const Login = asyncHandler(async (req, res) => {
     .json({
       name: user.name,
       accessToken,
-      refreshToken,
     })
 })
 
@@ -86,7 +85,6 @@ export const refreshToken = asyncHandler(async (req, res) => {
           .json({
             name: user.name,
             accessToken,
-            refreshToken,
           })
       }
     )
