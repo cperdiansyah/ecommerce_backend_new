@@ -22,16 +22,13 @@ if (process.env.NODE_ENV === 'development') {
 
 app.use(
   cors({
+    origin: process.env.CORS_OPEN || 'https://ecommerce-next-delta.vercel.app',
     credentials: true,
-    origin: process.env.CORS_OPEN || 'http://localhost:3000',
   })
 )
 app.use(cookieParser())
 app.use(express.json())
 
-app.get('/api', function (req, res) {
-  res.json(req.cookies)
-})
 /* auth Routes */
 app.use('/api/auth', authRouter)
 
