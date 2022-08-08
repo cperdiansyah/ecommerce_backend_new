@@ -28,6 +28,14 @@ export const Login = asyncHandler(async (req, res) => {
     expiresIn: process.env.JWT_COOKIE_EXPIRES_IN || '7d',
   })
 
+  res.cookie('refreshToken', refreshToken, {
+    expires: new Date(
+      Date.now() +
+        eval(process.env.JWT_COOKIE_EXPIRES_IN_MS || 7 * 24 * 60 * 60) * 1000
+    ),
+    httpOnly: true,
+  })
+
   return res
     .cookie('refreshToken', refreshToken, {
       expires: new Date(
@@ -79,7 +87,6 @@ export const refreshToken = asyncHandler(async (req, res) => {
                 eval(process.env.JWT_COOKIE_EXPIRES_IN_MS || 7 * 24 * 60 * 60) *
                   1000
             ),
-
             httpOnly: true,
           })
           .json({
@@ -92,9 +99,6 @@ export const refreshToken = asyncHandler(async (req, res) => {
     return console.log(err)
   }
 })
-
-
-
 
 export const Logout = asyncHandler(async (req, res) => {
   const { refreshToken } = req.cookies
