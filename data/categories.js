@@ -2,33 +2,33 @@ const categoryData = [
   {
     name: 'Electronics',
     slug: 'electronics',
-    icon: 'cable',
+    icon: 'fa-solid fa-plug-circle-bolt',
   },
   {
     name: 'Smartphones',
     slug: 'smartphones',
-    icon: 'smartphone',
+    icon: 'fa-solid fa-mobile-screen',
   },
   {
     name: 'Digital Camera',
     slug: 'digital-camera',
-    icon: 'camera_alt',
+    icon: 'fa-solid fa-camera',
   },
   {
     name: 'Computer',
     slug: 'computer',
-    icon: 'computer',
+    icon: 'fa-solid fa-computer',
   },
   {
     name: 'Accesories',
     slug: 'accesories',
-    icon: 'headphones_battery',
+    icon: 'fa-solid fa-headset',
   },
   {
     name: 'Game',
     slug: 'game',
-    icon: 'sports_esports',
+    icon: 'fa-solid fa-gamepad',
   },
-];
+]
 
 export default categoryData;

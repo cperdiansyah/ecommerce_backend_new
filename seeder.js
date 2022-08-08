@@ -11,6 +11,8 @@ import Category from './models/CategoryModels.js'
 
 import connectDb from './config/Database.js'
 
+import getRandomNumberMinMax from './helpers/getRandomNumber.js'
+
 dotenv.config()
 connectDb()
 
@@ -22,12 +24,16 @@ const importData = async () => {
 
     const createdUsers = await User.insertMany(users)
     const adminUser = createdUsers[0]._id
-    await Category.insertMany(categories)
+    const createdCategories = await Category.insertMany(categories)
 
     const sampleProduct = products.map((product) => {
       return {
         ...product,
         user: adminUser,
+        category:
+          createdCategories[
+            getRandomNumberMinMax(0, createdCategories.length - 1)
+          ]._id,
       }
     })
 
