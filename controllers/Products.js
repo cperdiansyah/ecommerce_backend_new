@@ -50,7 +50,9 @@ export const getProductsById = asyncHandler(async (req, res) => {
 // @access Private
 export const getProductCart = asyncHandler(async (req, res) => {
   try {
-    const cart = await Carts.find({ user: req.user.id })
+    const cart = await Carts.find({ user: req.user.id }).populate({
+      path: 'product',
+    })
     if (!cart) {
       return res.status(404).json({ status: 'fail', message: 'Cart not found' })
     }
@@ -65,7 +67,7 @@ export const getProductCart = asyncHandler(async (req, res) => {
   }
 })
 
-// desc add  products to cart
+// desc add products to cart
 // @route POST /api/products/:id/cart
 // @access Private
 export const addProductCart = asyncHandler(async (req, res) => {
@@ -110,6 +112,83 @@ export const addProductCart = asyncHandler(async (req, res) => {
         cartId: newCart._id,
       },
     })
+  } catch (err) {
+    console.error(err.message)
+    return res.status(500).json({
+      status: 'fail',
+      message: 'Something went wrong',
+    })
+  }
+})
+
+// desc get favorites of products
+// @route GET /api/products/:id/favorite
+// @access Private
+export const getProductFavorite = asyncHandler(async (req, res) => {
+  try {
+    const favorite = await Favorites.find({ user: req.user.id }).populate({
+      path: 'product',
+    })
+    if (!favorite) {
+      return res
+        .status(404)
+        .json({ status: 'fail', message: 'Favorite not found' })
+    }
+
+    return res.status(200).json({ status: 'success', data: favorite })
+  } catch (err) {
+    console.error(err.message)
+    return res.status(500).json({
+      status: 'fail',
+      message: 'Something went wrong',
+    })
+  }
+})
+
+// desc add products to favorite
+// @route POST /api/products/:id/favorite
+// @access Private
+export const addProductFavorite = asyncHandler(async (req, res) => {
+  try {
+    // let newFavorite
+    const { id: productId } = req.params
+    const product = await Products.findById(productId)
+
+    if (!product) {
+      return res
+        .status(404)
+        .json({ status: 'fail', message: 'Product not found' })
+    }
+    const favorite = await Favorites.findOne({
+      user: req.user._id,
+      product: productId,
+    })
+
+    if (favorite) {
+      await Favorites.findOneAndRemove({
+        user: req.user._id,
+        product: productId,
+      })
+      return res.status(200).json({
+        status: 'success',
+        message: 'Product added to favorite',
+        data: {
+          product: productId,
+        },
+      })
+    } else {
+      // If product is unavailable on database
+      const favorites = await Favorites.create({
+        user: req.user._id,
+        product: productId,
+      })
+
+      return res.status(200).json({
+        status: 'success',
+        message: 'Product added to favorite',
+        data: favorites,
+      })
+    }
   } catch (err) {
     console.error(err.message)
     return res.status(500).json({
