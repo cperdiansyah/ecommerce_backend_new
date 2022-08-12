@@ -136,6 +136,7 @@ export const getProductFavorite = asyncHandler(async (req, res) => {
     }
 
     return res.status(200).json({ status: 'success', data: favorite })
+    
   } catch (err) {
     console.error(err.message)
     return res.status(500).json({

@@ -4,6 +4,8 @@ import {
   getProductsById,
   addProductCart,
   getProductCart,
+  getProductFavorite,
+  addProductFavorite,
 } from '../controllers/Products.js'
 import { protect } from '../middleware/authMiddleware.js'
 
@@ -16,5 +18,10 @@ router
   .route('/:id/cart')
   .post(protect, addProductCart)
   .get(protect, getProductCart)
+
+router
+  .route('/:id/favorites')
+  .post(protect, addProductFavorite)
+  .get(protect, getProductFavorite)
 
 export default router
