@@ -3,6 +3,7 @@ import dotenv from 'dotenv'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
 import morgan from 'morgan'
+dotenv.config()
 
 import dbConnect from './config/Database.js'
 // const dbConnect = require('./config/Database')
@@ -11,8 +12,8 @@ import dbConnect from './config/Database.js'
 import authRouter from './routes/authRouter.js'
 import productRouter from './routes/productRouter.js'
 import categoryRouter from './routes/categoryRouter.js'
+import tokenRouter from './routes/tokenRouter.js'
 
-dotenv.config()
 const app = express()
 dbConnect()
 
@@ -28,6 +29,15 @@ app.use(
 )
 app.use(cookieParser())
 app.use(express.json())
+
+app.get('/api', function (req, res) {
+  // res.send('Hello World!')
+  console.log(req.user)
+  return res.status(200).json({ username: req.user })
+})
+
+/* auth Token */
+app.use('/api/token', tokenRouter)
 
 /* auth Routes */
 app.use('/api/auth', authRouter)
