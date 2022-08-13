@@ -13,6 +13,8 @@ import authRouter from './routes/authRouter.js'
 import productRouter from './routes/productRouter.js'
 import categoryRouter from './routes/categoryRouter.js'
 import tokenRouter from './routes/tokenRouter.js'
+import cartRouter from './routes/cartRouter.js'
+import favoriteRouter from './routes/favoriteRouter.js'
 
 const app = express()
 dbConnect()
@@ -44,6 +46,13 @@ app.use('/api/auth', authRouter)
 
 /* Product Routes */
 app.use('/api/product', productRouter)
+
+/* Cart Routes */
+app.use('/api/cart', cartRouter)
+
+/* Favorites Routes */
+app.use('/api/favorite', favoriteRouter)
+
 
 /* Category Routes */
 app.use('/api/category', categoryRouter)

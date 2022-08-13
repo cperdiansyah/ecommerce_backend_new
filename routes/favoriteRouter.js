@@ -1,16 +1,14 @@
 import express from 'express'
 import {
-  getProducts,
-  getProductsById,
+  getProductFavorite,
+  addProductFavorite,
 } from '../controllers/Products.js'
 import { protect } from '../middleware/authMiddleware.js'
 
 const router = express.Router()
 
-/* Products */
-router.get('/', getProducts)
-router.get('/:id', getProductsById)
-
-
+/* favorites */
+router.route('/').get(protect, getProductFavorite)
+router.route('/:id').post(protect, addProductFavorite)
 
 export default router

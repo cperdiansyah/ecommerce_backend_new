@@ -50,9 +50,10 @@ export const getProductsById = asyncHandler(async (req, res) => {
 // @access Private
 export const getProductCart = asyncHandler(async (req, res) => {
   try {
-    const cart = await Carts.find({ user: req.user.id }).populate({
-      path: 'product',
-    })
+    const cart = await Carts.find({
+      user: req.user.id,
+    }).populate('product')
+
     if (!cart) {
       return res.status(404).json({ status: 'fail', message: 'Cart not found' })
     }
@@ -129,6 +130,7 @@ export const getProductFavorite = asyncHandler(async (req, res) => {
     const favorite = await Favorites.find({ user: req.user.id }).populate({
       path: 'product',
     })
+
     if (!favorite) {
       return res
         .status(404)
@@ -136,7 +138,6 @@ export const getProductFavorite = asyncHandler(async (req, res) => {
     }
 
     return res.status(200).json({ status: 'success', data: favorite })
-    
   } catch (err) {
     console.error(err.message)
     return res.status(500).json({
@@ -165,6 +166,8 @@ export const addProductFavorite = asyncHandler(async (req, res) => {
       product: productId,
     })
 
+    /* Check if product has already favorites */
+    /* if products has already, remove it */
     if (favorite) {
       await Favorites.findOneAndRemove({
         user: req.user._id,
@@ -172,13 +175,15 @@ export const addProductFavorite = asyncHandler(async (req, res) => {
       })
       return res.status(200).json({
         status: 'success',
-        message: 'Product added to favorite',
+        message: 'Product removed from favorite',
         data: {
           product: productId,
         },
       })
     } else {
-      // If product is unavailable on database
+      /* 
+      If product is unavailable on database, add it to favorites
+      */
       const favorites = await Favorites.create({
         user: req.user._id,
         product: productId,
